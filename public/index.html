@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="sidemenu-panel">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <ul id="myMusics">
+      <li>Music 001</li>
+      <li>Music 002</li>
+    </ul>
+  </div>
+  <div id="content">
+      
+      <canvas id="canvas"></canvas>
+      <audio id="audio" controls></audio>
+      <div class="track-art">
+          <i class="fas fa-music fa-5x"></i>
+          
+      </div> 
+      <div class="player"> 
+          <div class="menu-buttons">
+            <button id="import">Import Musik</button> 
+            <button id="pilih" onclick="openNav()">Pilih Musik</button> 
+            <div class="now-playing">MUSIK KE 0 DARI 0</div> 
+          </div>
+          
+          <div class="bottom">
+              <div class="details"> 
+                  <div class="track-name">Track Name</div> 
+                  <div class="track-artist">Track Artist</div>                     
+                </div>
+    
+    
+                <div class="slider_container"> 
+                    <div class="current-time">00:00</div> 
+                    <input type="range" min="1" max="100"
+                      value="0" class="seek_slider" onchange="seekTo()"> 
+                    <div class="total-duration">00:00</div> 
+                  </div> 
+              
+    
+                <div class="buttons"> 
+                  <div class="prev-track" onclick="prevTrack()"> 
+                    <i class="fa fa-step-backward fa-2x"></i> 
+                  </div> 
+                  <div class="playpause-track" onclick="playpauseTrack()"> 
+                    <i class="fa fa-play-circle fa-3x"></i> 
+                  </div> 
+                  <div class="next-track" onclick="nextTrack()"> 
+                    <i class="fa fa-step-forward fa-2x"></i> 
+                  </div> 
+                </div> 
+              
+                
+              
+          
+                <div class="slider_container"> 
+                  <i class="fa fa-volume-down" onclick="setVolume(0)"></i> 
+                    <input type="range" min="0" max="100" value="100" class="volume_slider"> 
+                  <i class="fa fa-volume-up" onclick="setVolume(1)"></i> 
+                </div> 
+          </div>
+      </div>
+  </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
