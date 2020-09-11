@@ -225,47 +225,22 @@ global.filepath = undefined;
 importButton.addEventListener('click', () => {
     if (process.platform !== 'darwin') { 
         dialog.showOpenDialog({ 
-            title: 'Select the File to be uploaded', 
-            defaultPath: path.join(__dirname, '../assets/'), 
-            buttonLabel: 'Upload',
+            title: 'import musik yang akan di tambahkan', 
+            defaultPath: path.join(__dirname), 
+            buttonLabel: 'import',
             filters: [ 
                 { 
-                    name: 'Video', 
-                    extensions: ['mp4', 'mkv'] 
-                }, ], 
+                    name: 'Music', 
+                    extensions: ['mp3', 'wav'] 
+                }], 
             properties: ['openFile'] 
         }).then(file => {  
             console.log(file.canceled); 
             if (!file.canceled) { 
                 global.filepath = file.filePaths[0].toString(); 
-                importButton.innerHTML = global.filepath
-                console.log(global.filepath); 
-            
-            }   
-        }).catch(err => { 
-            console.log(err) 
-        }); 
-    } 
-    else { 
-
-        dialog.showOpenDialog({ 
-            title: 'import musik yang akan di tambahkan', 
-            defaultPath: path.join(__dirname, '../assets/'), 
-            buttonLabel: 'import', 
-            filters: [ 
-                { 
-                    name: 'Music', 
-                    extensions: ['mp3', 'wav'] 
-                }, ], 
-            properties: ['openFile', 'openDirectory'] 
-        }).then(file => { 
-            console.log(file.canceled); 
-            if (!file.canceled) { 
-                global.filepath = file.filePaths[0].toString(); 
-                //importButton.innerHTML = global.filepath
                 var parser = mm(fs.createReadStream(global.filepath), function (err, metadata) {
                     if (err) {
-                        console.log(err);
+                        alert(err);
                     }
 
                     var check = my_musics.filter(m => m.path == global.filepath);
@@ -280,10 +255,47 @@ importButton.addEventListener('click', () => {
                             path: global.filepath
                         })
                         saveMyMusic();
-                        // loadTrack(track_index); 
-                        // playTrack();
                     }
-                    
+                });
+            
+            }   
+        }).catch(err => { 
+            console.log(err) 
+        }); 
+    } 
+    else { 
+        dialog.showOpenDialog({ 
+            title: 'import musik yang akan di tambahkan', 
+            defaultPath: path.join(__dirname), 
+            buttonLabel: 'import', 
+            filters: [ 
+                { 
+                    name: 'Music', 
+                    extensions: ['mp3', 'wav'] 
+                }], 
+            properties: ['openFile', 'openDirectory'] 
+        }).then(file => { 
+            console.log(file.canceled); 
+            if (!file.canceled) { 
+                global.filepath = file.filePaths[0].toString(); 
+                var parser = mm(fs.createReadStream(global.filepath), function (err, metadata) {
+                    if (err) {
+                        alert(err);
+                    }
+
+                    var check = my_musics.filter(m => m.path == global.filepath);
+                    if(check != null){
+                        alert(`${check.name} sudah ada di playlist`)
+                    }
+                    if(metadata && check == null){
+                        console.log(metadata);
+                        my_musics.push({ 
+                            name: (metadata.title != "")?metadata.title:path.basename(global.filepath), 
+                            artist: metadata.artist[0] ?? "Artis Tidak Di Ketahui", 
+                            path: global.filepath
+                        })
+                        saveMyMusic();
+                    }
                 });
                 
             }   
